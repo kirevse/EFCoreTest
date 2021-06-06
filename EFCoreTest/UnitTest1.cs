@@ -14,7 +14,10 @@ namespace EFCoreTest
             using var efCoreDbContext = new EfCoreTestDbContext();
 
             var dependent = new Dependent();
-            dependent.DependentAttributes.Add(new DependentAttribute());
+            dependent.DependentAttributes.Add(new DependentAttribute
+            {
+                ReferenceDataId = 1
+            });
             var parent = new Parent
             {
                 Name = "Test 1"
@@ -33,12 +36,17 @@ namespace EFCoreTest
             efCoreDbContext.Parents.Remove(await efCoreDbContext.Parents
                 .Include(p => p.Dependents)
                 .ThenInclude(d => d.DependentAttributes)
+                .ThenInclude(da => da.ReferenceData)
                 .FirstOrDefaultAsync(p => p.Name == "Test 1"));
             await efCoreDbContext.SaveChangesAsync();
 
             (await efCoreDbContext.Parents.AnyAsync())
                 .Should()
                 .BeFalse();
+
+            (await efCoreDbContext.ReferenceData.CountAsync())
+                .Should()
+                .Be(2);
         }
     }
 }

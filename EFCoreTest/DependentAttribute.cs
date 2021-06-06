@@ -9,7 +9,9 @@ namespace EFCoreTest
     {
         public int DependentAttributeId { get; set; }
         public int DependentId { get; set; }
+        public int ReferenceDataId { get; set; }
 
         public virtual Dependent Dependent { get; set; }
+        public virtual ReferenceDatum ReferenceData { get; set; }
     }
 }

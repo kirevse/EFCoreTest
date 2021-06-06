@@ -7,9 +7,14 @@ namespace EFCoreTest
 {
     public partial class Parent
     {
+        public Parent()
+        {
+            Dependents = new HashSet<Dependent>();
+        }
+
         public int ParentId { get; set; }
         public string Name { get; set; }
 
-        public virtual ICollection<Dependent> Dependents { get; set; } = new HashSet<Dependent>();
+        public virtual ICollection<Dependent> Dependents { get; set; }
     }
 }

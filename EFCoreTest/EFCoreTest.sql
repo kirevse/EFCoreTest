@@ -16,9 +16,16 @@ CREATE TABLE dbo.Dependent (
 )
 GO
 
+CREATE TABLE dbo.ReferenceData (
+    ReferenceDataId INT NOT NULL IDENTITY(1, 1) CONSTRAINT PK_ReferenceData PRIMARY KEY,
+    Code VARCHAR(10) NOT NULL CONSTRAINT UQ_ReferenceData UNIQUE
+)
+GO
+
 CREATE TABLE dbo.DependentAttribute (
     DependentAttributeId INT NOT NULL IDENTITY(1, 1) CONSTRAINT PK_DependentAttribute PRIMARY KEY,
-    DependentId INT NOT NULL CONSTRAINT FK_DependentAttribute_Dependent FOREIGN KEY REFERENCES dbo.Dependent(DependentId)
+    DependentId INT NOT NULL CONSTRAINT FK_DependentAttribute_Dependent FOREIGN KEY REFERENCES dbo.Dependent(DependentId),
+    ReferenceDataId INT NOT NULL CONSTRAINT FK_DependentAttribute_ReferenceData FOREIGN KEY REFERENCES dbo.ReferenceData(ReferenceDataId)
 )
 GO
 
@@ -40,8 +47,15 @@ GO
 -- INNER JOIN dbo.Parent p
 --     ON p.ParentId = d.ParentId
 --     AND p.[Name] = 'Test 1'
--- GO
 
+INSERT INTO dbo.ReferenceData
+    (Code)
+VALUES
+    ('TST1'),
+    ('TST2')
+GO
+
+SELECT * FROM EFCoreTest.dbo.ReferenceData
 SELECT * FROM EFCoreTest.dbo.DependentAttribute
 SELECT * FROM EFCoreTest.dbo.[Dependent]
 SELECT * FROM EFCoreTest.dbo.Parent

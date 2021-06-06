@@ -20,6 +20,7 @@ namespace EFCoreTest
         public virtual DbSet<Dependent> Dependents { get; set; }
         public virtual DbSet<DependentAttribute> DependentAttributes { get; set; }
         public virtual DbSet<Parent> Parents { get; set; }
+        public virtual DbSet<ReferenceDatum> ReferenceData { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -53,6 +54,12 @@ namespace EFCoreTest
                     .HasForeignKey(d => d.DependentId)
                     // .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_DependentAttribute_Dependent");
+
+                entity.HasOne(d => d.ReferenceData)
+                    .WithMany()
+                    .HasForeignKey(d => d.ReferenceDataId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DependentAttribute_ReferenceData");
             });
 
             modelBuilder.Entity<Parent>(entity =>
@@ -65,6 +72,19 @@ namespace EFCoreTest
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<ReferenceDatum>(entity =>
+            {
+                entity.HasKey(e => e.ReferenceDataId);
+
+                entity.HasIndex(e => e.Code, "UQ_ReferenceData")
+                    .IsUnique();
+
+                entity.Property(e => e.Code)
+                    .IsRequired()
+                    .HasMaxLength(10)
                     .IsUnicode(false);
             });
 
