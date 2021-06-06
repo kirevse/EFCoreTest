@@ -20,6 +20,7 @@ namespace EFCoreTest
                 Name = "Test 1"
             };
             parent.Dependents.Add(dependent);
+
             await efCoreDbContext.AddAsync(parent);
             await efCoreDbContext.SaveChangesAsync();
 

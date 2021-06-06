@@ -42,4 +42,6 @@ GO
 --     AND p.[Name] = 'Test 1'
 -- GO
 
-SELECT * FROM dbo.Parent
+SELECT * FROM EFCoreTest.dbo.DependentAttribute
+SELECT * FROM EFCoreTest.dbo.[Dependent]
+SELECT * FROM EFCoreTest.dbo.Parent
