@@ -41,8 +41,8 @@ GO
 -- WHERE [Name] = 'Test 1'
 
 -- INSERT INTO dbo.DependentAttribute
---     (DependentId)
--- SELECT d.DependentId
+--     (DependentId, ReferenceDataId)
+-- SELECT d.DependentId, 1
 -- FROM dbo.Dependent d
 -- INNER JOIN dbo.Parent p
 --     ON p.ParentId = d.ParentId

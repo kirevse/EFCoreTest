@@ -1,6 +1,5 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -33,11 +32,12 @@ namespace EFCoreTest
                 .And
                 .BeEquivalentTo(parent);
 
-            efCoreDbContext.Parents.Remove(await efCoreDbContext.Parents
-                .Include(p => p.Dependents)
-                .ThenInclude(d => d.DependentAttributes)
-                .ThenInclude(da => da.ReferenceData)
-                .FirstOrDefaultAsync(p => p.Name == "Test 1"));
+            efCoreDbContext.Parents
+                .Remove(await efCoreDbContext.Parents
+                    .Include(p => p.Dependents)
+                    .ThenInclude(d => d.DependentAttributes)
+                    .ThenInclude(da => da.ReferenceData)
+                    .FirstOrDefaultAsync(p => p.Name == "Test 1"));
             await efCoreDbContext.SaveChangesAsync();
 
             (await efCoreDbContext.Parents.AnyAsync())

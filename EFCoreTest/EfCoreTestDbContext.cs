@@ -41,7 +41,6 @@ namespace EFCoreTest
                 entity.HasOne(d => d.Parent)
                     .WithMany(p => p.Dependents)
                     .HasForeignKey(d => d.ParentId)
-                    // .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Dependent_Parent");
             });
 
@@ -52,13 +51,11 @@ namespace EFCoreTest
                 entity.HasOne(d => d.Dependent)
                     .WithMany(p => p.DependentAttributes)
                     .HasForeignKey(d => d.DependentId)
-                    // .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_DependentAttribute_Dependent");
 
                 entity.HasOne(d => d.ReferenceData)
                     .WithMany()
                     .HasForeignKey(d => d.ReferenceDataId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_DependentAttribute_ReferenceData");
             });
 
